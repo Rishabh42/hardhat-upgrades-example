@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.0;
 
+import "./lib/SafeMath.sol";
+
 contract BoxV2 {
+    // using SafeMath for uint256;
     uint256 private value;
 
     // Emitted when the stored value changes
@@ -21,7 +24,8 @@ contract BoxV2 {
 
     // Increments the stored value by 1
     function increment() public {
-        value = value + 1;
+        // value = value.add(1);
+        value = SafeMath.add(value, 1);
         emit ValueChanged(value);
     }
 }

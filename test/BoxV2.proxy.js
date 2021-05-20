@@ -10,8 +10,16 @@ let boxV2;
 // Start test block
 describe("BoxV2 (proxy)", function () {
   beforeEach(async function () {
+    const safeMathLib = await ethers.getContractFactory("SafeMath");
+    const _safeMathLib = await safeMathLib.deploy();
+
     Box = await ethers.getContractFactory("Box");
-    BoxV2 = await ethers.getContractFactory("BoxV2");
+    // BoxV2 = await ethers.getContractFactory("BoxV2");
+    BoxV2 = await ethers.getContractFactory("BoxV2", {
+      libraries: {
+        SafeMath: _safeMathLib.address,
+      },
+    });
 
     box = await upgrades.deployProxy(Box, [42], { initializer: "store" });
     boxV2 = await upgrades.upgradeProxy(box.address, BoxV2);
