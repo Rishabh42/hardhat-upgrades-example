@@ -22,7 +22,12 @@ describe("BoxV2 (proxy)", function () {
     });
 
     box = await upgrades.deployProxy(Box, [42], { initializer: "store" });
-    boxV2 = await upgrades.upgradeProxy(box.address, BoxV2);
+    console.log("box proxy deployed at:", box.address);
+
+    boxV2 = await upgrades.upgradeProxy(box.address, BoxV2, {
+      unsafeAllow: ["external-library-linking"],
+    });
+    console.log("boxV2 proxy deployed at:", boxV2.address);
   });
 
   // Test case
